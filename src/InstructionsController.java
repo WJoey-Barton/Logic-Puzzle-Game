@@ -30,7 +30,7 @@ public class InstructionsController {
     @FXML
     private void StartPuzzleButton_clicked() throws IOException {
         Stage stage = (Stage) StartPuzzle_Button.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Proj2.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Proj2_2.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);

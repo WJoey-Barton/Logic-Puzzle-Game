@@ -10,17 +10,11 @@ import javafx.stage.Stage;
 
 public class InstructionsController {
 
-    @FXML
-    private Label Title_Label;
+    @FXML private Label Title_Label;
+    @FXML private Label Instructions1_Label;
+    @FXML private Label Instructions2_Label;
 
-    @FXML
-    private Label Instructions1_Label;
-
-    @FXML
-    private Label Instructions2_Label;
-
-    @FXML
-    private Button StartPuzzle_Button;
+    @FXML private Button StartPuzzle_Button;
 
     @FXML
     private void initialize() {
@@ -30,7 +24,7 @@ public class InstructionsController {
     @FXML
     private void StartPuzzleButton_clicked() throws IOException {
         Stage stage = (Stage) StartPuzzle_Button.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Proj2_2.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Proj2_3.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);

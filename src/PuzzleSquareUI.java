@@ -30,7 +30,7 @@ public class PuzzleSquareUI extends StackPane {
     private Line line2;
 
     //Visual constants
-    private static final double SQUARE_SIZE = 42;
+    private static final double SQUARE_SIZE = 48;
     private static final double GREEN_CIRCLE_RADIUS = 18;
     private static final double X_SIZE = 20;
 
@@ -38,10 +38,10 @@ public class PuzzleSquareUI extends StackPane {
     private int row;
     private int col;
 
-    private SceneController controller;
+    private PuzzleController controller;
 
     //Constructor for puzzle square
-    public PuzzleSquareUI(int row, int col, SceneController controller) {
+    public PuzzleSquareUI(int row, int col, PuzzleController controller) {
 
         this.row = row;
         this.col = col;
@@ -248,12 +248,16 @@ public class PuzzleSquareUI extends StackPane {
         if(isAutoExcluded) {
             isAutoExcluded = false;
         }
-
+        boolean wasSelected = isSelected;
         isEmpty = true;
         isExcluded = false;
         isSelected = false;
         isError = true;
         updateVisual();
+
+        if(wasSelected) {
+            controller.onSquareDeselected(row, col);
+        }
     }
 
     public boolean isEmpty() {
@@ -267,4 +271,8 @@ public class PuzzleSquareUI extends StackPane {
     public boolean isSelected() {
         return isSelected;
     }
+
+    public double getSquareSize() {
+        return SQUARE_SIZE;
+    } 
 }

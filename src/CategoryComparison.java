@@ -1,18 +1,35 @@
 public class CategoryComparison {
 
-    private Category category1;
-    private Category category2;
+    private Category rowCategory;
+    private Category colCategory;
+    private String gridKey;
 
-    public CategoryComparison(Category category1, Category category2) {
-        this.category1 = category1;
-        this.category2 = category2;
+    public CategoryComparison(Category rowCategory, Category colCategory) {
+        this.rowCategory = rowCategory;
+        this.colCategory = colCategory;
+        this.gridKey = rowCategory.getName() + "Vs" + colCategory.getName();
     }
 
-    public Category getCategory1() {
-        return category1;
+    public Category getRowCategory() {
+        return rowCategory;
     }
 
-    public Category getCategory2() {
-        return category2;
+    public Category getColCategory() {
+        return colCategory;
     }
+
+    public String getGridKey() {
+        return gridKey;
+    }
+
+    //Get's a specific value from the row Category
+    public String getRowValue(int index) {
+        return rowCategory.getCatValues().get(index);
+    }
+
+    //Get's a specific value from the col Category
+    public String getColValue(int index) {
+        return colCategory.getCatValues().get(index);
+    }
+    
 }

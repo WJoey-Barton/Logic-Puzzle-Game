@@ -1,0 +1,146 @@
+/*
+Colors:
+Root background, Black Deepest - #0d0d0f
+Primary Background, Black Deeper - #13131a
+Clue Background, Black Deep - #1c1c26
+Clue Border, Black - #2a2a38
+Hint Background, Black Light - #1c0810
+Primary Border, Red Deep - #6b0f1a
+Title Text, Red Bright - #c0273d
+Hint Text, Red Light - #e8334a
+Submit Button Border, Red - #8b1a2a
+Category Text, Silver - #9a9ab0
+Clue Text, Silver Bright - #e8e8ec
+*/
+
+/*
+New Colors:
+Root background, Black Deepest - #04060b
+Primary Background, Black Deeper - #0d111d
+Clue Background, Black Deep - #161c2e
+Clue Border, Black - #2d3a5a
+Hint Background, Black Light - #1e1430
+Primary Border, Red Deep - #3d5afe
+Title Text, Red Bright - #a29bfe
+Hint Text, Red Light - #81ecec
+Submit Button Border, Red - #6c5ce7
+Category Text, Silver - #b2bec3
+Clue Text, Silver Bright - #f5f6fa
+*/
+
+/* Root */
+.root {
+    -fx-background-color: #04060b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+}
+
+/* Anchor Pane */
+AnchorPane {
+    -fx-background-color: #04060b;
+}
+
+/* VBox */
+VBox {
+    -fx-backgound-color: #0d111d;
+    -fx-border-color: #3d5afe;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(gaussian, #3d5afe, 12, 0.3, 0, 0);
+}
+
+GridPane {
+    -fx-background-color: #0d111d;
+    -fx-border-color: #3d5afe;
+    -fx-border-width: 1.5px;
+    -fx-grid-lines-visible: true;
+    -fx-hgap: 0;
+    -fx-vgap: 0;
+}
+
+#Title_Label {
+    -fx-text-fill: #a29bfe;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #3d5afe, 16, 0.6, 0, 0);
+}
+
+#Cat1_Label,
+#Cat2_Label,
+#Cat3_Label,
+#Cat22_Label {
+    -fx-text-fill: #b2bec3;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+#Cat1V1_Label, #Cat1V2_Label, #Cat1V3_Label, #Cat1V4_Label, 
+#Cat2V1_Label, #Cat2V2_Label, #Cat2V3_Label, #Cat2V4_Label,
+#Cat3V1_Label, #Cat3V2_Label, #Cat3V3_Label, #Cat3V4_Label,
+#Cat22V1_Label, #Cat22V2_Label, #Cat22V3_Label, #Cat22V4_Label {
+    -fx-text-fill: #b2bec3;
+    -fx-text-size: 11px;
+}
+
+#ActiveClue_Label {
+    -fx-text-fill: #a29bfe;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+#Clue1_Label,
+#Clue2_Label,
+#Clue3_Label,
+#Clue4_Label,
+#Clue5_Label {
+    -fx-text-fill: #f5f6fa;
+    -fx-font-size: 11px;
+    -fx-background-color: #161c2e;
+    -fx-background-radius: 3px;
+    -fx-border-color: #2d3a5a;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-padding: 6px;
+}
+
+#Hint_Label {
+    -fx-text-fill: #81ecec;
+    -fx-font-size: 11px;
+    -fx-border-color: #3d5afe;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 3px;
+    -fx-background-color: #1e1430;
+    -fx-background-radius: 3px;
+    -fx-padding: 6px;
+    -fx-effect: dropshadow(gaussian, #3d5afe, 8, 0.4, 0, 0);
+}
+
+.button {
+    -fx-background-color: #161c2e;
+    -fx-border-color: #3d5afe;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 4px;
+    -fx-text-fill: #f5f6fa;
+    -fx-font-size: 12px;
+    -fx-padding: 6px 14px;
+}
+
+#Submit_Button {
+    -fx-background-color: #161c2e;
+    -fx-border-color: #6c5ce7;
+    -fx-border-width: 2px;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+#Timer_Label {
+    -fx-text-fill: #a29bfe;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.stack-pane {
+    -fx-background-color: #161c2e;
+}

@@ -1,3 +1,16 @@
+/**Luke Johnson
+ * Joey Barton
+ * This class contains all the information each instance of a puzzle will have:
+ * title:
+ * Stores the literal values that will be used in each different puzzle
+ * 
+ * Holds puzzle data: title, categories, comparisons, clues, hints, and solution
+ * This class ensures that all puzzle data has been entered before being handed
+ * to controller.
+ * 
+ * To add a new puzzle: create a new static method
+ * Define: categories, comparisons, clues, hints, and solution
+ */
 import java.util.List;
 
 public class LogicPuzzle {
@@ -9,6 +22,7 @@ public class LogicPuzzle {
     private List<Hint> hints;
     private Solution solution;
 
+    //Private constructor - must use methods to create puzzles
     private LogicPuzzle(String title, List<Category> categories, List<CategoryComparison> comparisons,
                     List<Clue> clues, List<Hint> hints, Solution solution) {
 
@@ -43,7 +57,8 @@ public class LogicPuzzle {
     public Solution getSolution() {
         return solution;
     }
-        
+    
+    //
     public static LogicPuzzle buildPuzzle1() {
 
         // Categories and their inner values are initialized
@@ -62,12 +77,16 @@ public class LogicPuzzle {
 
         List<CategoryComparison> comparisons = List.of(daysVsFamilies, daysVsRequests, requestsVsFamilies);
 
+        //Clues are initialized
         List<Clue> clues = List.of(new Clue("The Underwood family party is 2 days before the booking that requested the clown."),
                                    new Clue("The booking that requested the rock band is for the Underwoods."), 
                                    new Clue("The booking that requested the photo booth is 1 day before the O'Connor family party."),
                                    new Clue("The Benton family event is sometime after the event that requested the magician.")
                                 );
 
+        //Hints are initialized
+        //Each hint has a specific square
+        //Indicates if the square should be selected (true) or excluded (false)
         List<Hint> hints = List.of(new Hint(4, 1, false, "If magician is" +
                                 " greater than Benton, then magician does not equal Benton. Mark the highlighted cell as FALSE"),
                                     new Hint(3, 1, false, "If Benton is greater than magician" +
@@ -83,27 +102,31 @@ public class LogicPuzzle {
                                     "in the set (October 6). Mark the highlighted cell as FALSE.")
         );
         
+        //Each putPair call maps a row value to a column value 
+        //Also keeps track of which grid the pair is in
         Solution solution = new Solution();
         String dvf = daysVsFamilies.getGridKey();
         String dvr = daysVsRequests.getGridKey();
         String rvf = requestsVsFamilies.getGridKey();
 
+        //Days vs Families
         solution.putPair(dvf, "October 3", "Ford");
         solution.putPair(dvf, "October 4", "Underwood");
         solution.putPair(dvf, "October 5", "Benton");
         solution.putPair(dvf, "October 6", "O'Connor");
         
+        //Days vs Requests
         solution.putPair(dvr, "October 3", "Magician");
         solution.putPair(dvr, "October 4", "Rock Band");
         solution.putPair(dvr, "October 5", "Photo Booth");
         solution.putPair(dvr, "October 6", "Clown");
         
+        //Requests vs Families
         solution.putPair(rvf, "Clown", "O'Connor");
         solution.putPair(rvf, "Magician", "Ford");
         solution.putPair(rvf, "Photo Booth", "Benton");
         solution.putPair(rvf, "Rock Band", "Underwood");
         
-
         return new LogicPuzzle("Easy Difficulty #1", categories, comparisons, clues, hints, solution);
     }
     

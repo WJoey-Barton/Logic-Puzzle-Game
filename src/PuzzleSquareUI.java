@@ -76,8 +76,8 @@ public class PuzzleSquareUI extends StackPane {
     //Creates the square
     private void createBorder() {
         border = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
-        border.setFill(Color.WHITE);
-        border.setStroke(Color.BLACK);
+        border.setFill(Color.web("#161c2e"));
+        border.setStroke(Color.web("#3d5afe"));
         border.setStrokeWidth(1);
         getChildren().add(border);
     }
@@ -85,8 +85,8 @@ public class PuzzleSquareUI extends StackPane {
     //Create the green circle used when selecting a square
     private void createGreenCircle() {
         greenCircle = new Circle(GREEN_CIRCLE_RADIUS);
-        greenCircle.setFill(Color.LIGHTGREEN);
-        greenCircle.setStroke(Color.BLACK);
+        greenCircle.setFill(Color.web("#6c5ce7"));
+        greenCircle.setStroke(Color.web("#a29bfe"));
         greenCircle.setStrokeWidth(2);
         greenCircle.setVisible(false);
         getChildren().add(greenCircle);
@@ -98,7 +98,7 @@ public class PuzzleSquareUI extends StackPane {
         line2 = new Line(X_SIZE/2, -X_SIZE/2, -X_SIZE/2, X_SIZE/2);
 
         for(Line line : new Line[]{line1, line2}) {
-            line.setStroke(Color.RED);
+            line.setStroke(Color.web("#3d5afe"));
             line.setStrokeWidth(3);
             line.setStrokeLineCap(StrokeLineCap.ROUND);
             line.setVisible(false);
@@ -200,11 +200,14 @@ public class PuzzleSquareUI extends StackPane {
         //Highlighting a square
         //Used for Hint and Clear Errors
         if(isHighlighted) {
-            border.setFill(Color.YELLOW);
+            border.setFill(Color.web("#1e1430"));
+            border.setStroke(Color.web("#a29bfe"));
         } else if(isError) {
-            border.setFill(Color.rgb(255, 100, 100));
+            border.setFill(Color.web("#1e0a0a"));
+            border.setStroke(Color.web("#e8334a"));
         } else {
-            border.setFill(Color.WHITE);
+            border.setFill(Color.web("#161c2e"));
+            border.setStroke(Color.web("#3d5afe"));
         }
 
         //Display correct visual

@@ -1,9 +1,19 @@
+/** Joey Barton
+ * PuzzleController
+ * This class manages the GUI
+ * This class builds the puzzle grid and category labels
+ * Manages PuzzleSquareUI objects, their interactions, and states
+ * Manages user actions such as hints, clear errors, resetting puzzle, and submitting the solution
+ * Manages timer as well as penalties toward the user completion time
+*/
 import java.util.List;
-
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 public class PuzzleController {
 
@@ -48,6 +58,9 @@ public class PuzzleController {
 
     //Hint Label
     @FXML private Label Hint_Label;
+
+    //Timer Label
+    @FXML private Label Timer_Label;
     
     //Buttons
     @FXML private Button Hint_Button;
@@ -55,18 +68,34 @@ public class PuzzleController {
     @FXML private Button StartOver_Button;
     @FXML private Button Submit_Button;
 
+    //Puzzle grid container
     @FXML private GridPane Puzzle_GridPane;
-
-    private LogicPuzzle puzzle;
     
     //8x8 array of PuzzleSquareUI object (some unused)
     private PuzzleSquareUI[][] puzzleSquares = new PuzzleSquareUI[8][8];
 
+    //Puzzle model
+    private LogicPuzzle puzzle;
     private List<CategoryComparison> comparisons;
-    private int hintIndex = 0;
-    private PuzzleSquareUI currentlyHighlightedSquare = null;
-    private double SQUARE_SIZE = 48;
 
+    //Tracks hint iteration
+    private int hintIndex = 0;
+
+    //Tracks the currently highlighted square
+    private PuzzleSquareUI currentlyHighlightedSquare = null;
+
+    //Timer management
+    private int elapsedSeconds = 0;
+    private Timeline timer;
+    
+    //Constants used for UI and timer
+    private static final double SQUARE_SIZE = 48;
+    private static final int HINT_PENALTY = 120;
+    private static final int CLEAR_ERRORS_PENALTY = 120;
+
+    //Required class for JavaFX
+    //Sets up puzzle and GUI
+    //Starts the timer
     @FXML
     private void initialize() {
 
@@ -76,10 +105,16 @@ public class PuzzleController {
         populateLabels();
         printGrid();
 
+        startTimer();
+
         Submit_Button.setVisible(false);
     }
 
+    //Builds the grid
+    //Three quadrants, Top Left, Top Right, and Bottom Left
     private void printGrid() {
+
+        //Keep all columns and rows exactly the same size
         for(int i = 0; i < 8; i++) {
             javafx.scene.layout.ColumnConstraints cc = new javafx.scene.layout.ColumnConstraints();
             cc.setMinWidth(SQUARE_SIZE);
@@ -92,10 +127,6 @@ public class PuzzleController {
             rc.setMaxHeight(SQUARE_SIZE);
             rc.setPrefHeight(SQUARE_SIZE);
             Puzzle_GridPane.getRowConstraints().add(rc);
-        }
-
-        for(int row = 0; row < 4; row++) {
-
         }
 
         //Top left. First / Third categories, 4 values.
@@ -120,12 +151,15 @@ public class PuzzleController {
         }
     }
 
+    //Creates a PuzzleSquareUI at the given position
+    //Adds it to the GUI GridPane
     private void addSquare(int row, int col) {
         PuzzleSquareUI square = new PuzzleSquareUI(row, col, this);
         puzzleSquares[row][col] = square;
         Puzzle_GridPane.add(square, col, row);  
     }
 
+    //Populates all labels using data from LogicPuzzle
     private void populateLabels() {
         //Category Labels
         Cat1_Label.setText(comparisons.get(0).getColCategory().getName());
@@ -162,18 +196,15 @@ public class PuzzleController {
         Cat22V4_Label.setText(cat22Values.get(3));
 
         //Clues
+        //There should be atleast 4 clues
+        //But there's space for 5 clues
         List<Clue> clues = puzzle.getClues();
+        Clue1_Label.setText("1: " + clues.get(0).getContent());
+        Clue2_Label.setText("2: " + clues.get(1).getContent());
+        Clue3_Label.setText("3: " + clues.get(2).getContent());
+        Clue4_Label.setText("4: " + clues.get(3).getContent());
 
-        if(clues.size() < 5) {
-            Clue1_Label.setText("1: " + clues.get(0).getContent());
-            Clue2_Label.setText("2: " + clues.get(1).getContent());
-            Clue3_Label.setText("3: " + clues.get(2).getContent());
-            Clue4_Label.setText("4: " + clues.get(3).getContent());
-        } else {
-            Clue1_Label.setText("1: " + clues.get(0).getContent());
-            Clue2_Label.setText("2: " + clues.get(1).getContent());
-            Clue3_Label.setText("3: " + clues.get(2).getContent());
-            Clue4_Label.setText("4: " + clues.get(3).getContent());
+        if(clues.size() >= 5) {
             Clue5_Label.setText("5: " + clues.get(4).getContent()); 
         }
         
@@ -181,12 +212,17 @@ public class PuzzleController {
         
     }
     
+    //Presents the user with a hint
+    //Advances to next unused hint
+    //Skips hints that are already correctly filled in
+    //Adds a time penalty to the Timer
     @FXML
     private void HintButton_clicked() {
-        //TODO: Compare Solution to UserInput.
-        //First hint given should be equivalent to CheckErrors
+
+        elapsedSeconds += HINT_PENALTY;
 
         //Back to back Hint requests
+        //Clear the first highlight
         if(currentlyHighlightedSquare != null) {
             currentlyHighlightedSquare.setHighlight(false);
             currentlyHighlightedSquare = null;
@@ -199,11 +235,12 @@ public class PuzzleController {
             hintIndex++;
 
             PuzzleSquareUI square = puzzleSquares[hint.getRow()][hint.getCol()];
+            
             //Determine if the square is already correct
             boolean isCorrect = (hint.shouldBeSelected() && square.isSelected() 
                                 || !hint.shouldBeSelected() && square.isExcluded());
 
-            //Only highlight if hint not already found
+            
             if(!isCorrect && square.isEmpty()) {
                 square.setHighlight(true);
                 currentlyHighlightedSquare = square;
@@ -213,14 +250,19 @@ public class PuzzleController {
             }
         }
 
-        //No more hints available
         Hint_Label.setText("HINT: No more hints available!");
         Hint_Label.setVisible(true);
     }   
 
+    //Checks all squares that conflict with the solution
+    //Highlights, and clears the incorrect squares
+    //Displays number of errors
+    //Adds a time penalty to the Timer
     @FXML
     private void ClearErrorsButton_clicked() {
+
         boolean foundErrors = false;
+        int numOfErrors = 0;
 
         for(int row = 0; row < 8; row++) {
             for(int col = 0; col < 8; col++) {
@@ -242,22 +284,32 @@ public class PuzzleController {
                 if(shouldBeSelected && square.isExcluded()) {
                     square.clearErrorSquare();
                     foundErrors = true;
+                    numOfErrors++;
                 } else if(!shouldBeSelected && square.isSelected()) {
                     square.clearErrorSquare();
                     foundErrors = true;
+                    numOfErrors++;
                 }
             }
         } 
+
+        
         
 
         if(!foundErrors) {
             Hint_Label.setText("No errors found!");
-            Hint_Label.setVisible(true);
         } else {
+            int penalty = CLEAR_ERRORS_PENALTY * numOfErrors;
+            elapsedSeconds += penalty;
+            Hint_Label.setText(numOfErrors + " errors: " + "+" + penalty + " sec. penalty");
             checkCompletion();
         }
+
+        Hint_Label.setVisible(true);
     }
     
+    //Rests all puzzle squares to initial, empty state
+    //Resets timer to zero
     @FXML
     private void StartOverButton_clicked() {
         for(int row = 0; row < 8; row++) {
@@ -267,6 +319,7 @@ public class PuzzleController {
                 }
             }
         }
+
         Submit_Button.setVisible(false);
         hintIndex = 0;
         clearHintLabel();
@@ -274,6 +327,7 @@ public class PuzzleController {
         currentlyHighlightedSquare = null;
     }
 
+    //Checks the user solution against official solution
     @FXML
     private void SubmitButton_clicked() {
         for(int row = 0; row < 8; row++) {
@@ -307,14 +361,17 @@ public class PuzzleController {
             }
         }
 
-        Hint_Label.setText("Correct!");
+        timer.stop();
+
+        Hint_Label.setText("Correct! Solved in " + String.format("%02d:%02d",elapsedSeconds / 60, elapsedSeconds % 60));
         Hint_Label.setVisible(true);
         Submit_Button.setVisible(false);
     }
 
     //Checks for puzzle completion
     //All squares filled
-    //Then enables Submit button
+    //Then shows Submit button on GUI
+    //Submit button is hidden otherwise
     private void checkCompletion() {
         for(int row = 0; row < 8; row++) {
             for(int col = 0; col < 8; col++) {
@@ -341,13 +398,17 @@ public class PuzzleController {
 
     }
     
-    //Resets Hint label back to initial and hides it
+    //Resets Hint label back to empty and hides it
     public void clearHintLabel() {
         Hint_Label.setVisible(false);
         Hint_Label.setText("");
     }
 
     //Determines which quadrant a square belongs to
+    //Returns 0 - top-left
+    //Returns 1 - top-right
+    //Returns 2 - bottom-left
+    //Returns -1 - unused bottom-right
     private int getGridIndex(int row, int col) {
         
         //Top left quadrant / grid
@@ -369,6 +430,7 @@ public class PuzzleController {
         return -1;
     }
 
+    //Returns the solution grid key for the square's quadrant
     private String getGridKey(int row, int col) {
         int gridIndex = getGridIndex(row, col);
         if(gridIndex == -1) {
@@ -377,21 +439,25 @@ public class PuzzleController {
         return comparisons.get(gridIndex).getGridKey();
     }
 
+    //Returns the row category value for the given square's position
     private String getRowValue(int row, int col) {
         int gridIndex = getGridIndex(row, col);
         if(gridIndex == -1) {
             return null;
         }
 
+        //% 4 to convert from complete grid to local 4x4 grid
         return comparisons.get(gridIndex).getRowValue(row % 4);
     }
 
+    //Returns the column category value for the given square's position
     private String getColValue(int row, int col) {
         int gridIndex = getGridIndex(row, col);
         if(gridIndex == -1) {
             return null;
         }
 
+        //% 4 to convert from complete grid to local 4x4 grid
         return comparisons.get(gridIndex).getColValue(col % 4);
     }
     
@@ -482,7 +548,22 @@ public class PuzzleController {
         checkCompletion();
     }
     
-    
+    //Starts the timer
+    private void startTimer() {
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            elapsedSeconds++;
+            updateTimerLabel();
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+    }
+
+    //Formats elapsedSeconds to mm:ss and updates the Timer_Label
+    private void updateTimerLabel() {
+        int minutes = elapsedSeconds / 60;
+        int seconds = elapsedSeconds % 60;
+        Timer_Label.setText(String.format("%02d:%02d", minutes, seconds));
+    }
     
     
 

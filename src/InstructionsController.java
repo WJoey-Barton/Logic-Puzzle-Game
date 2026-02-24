@@ -1,3 +1,9 @@
+/**Joey Barton
+ * InstructionsController
+ * Entry point for the program.
+ * Displays a simple set of instructions for the game
+ * Displays a button for continuing to the Logic Puzzle
+ */
 import java.io.IOException;
 
 import javafx.fxml.FXML;
@@ -16,11 +22,13 @@ public class InstructionsController {
 
     @FXML private Button StartPuzzle_Button;
 
+    //Nothing to initialize here
     @FXML
     private void initialize() {
         
     }
 
+    //Button handles loading the fxml and Controller for the game
     @FXML
     private void StartPuzzleButton_clicked() throws IOException {
         Stage stage = (Stage) StartPuzzle_Button.getScene().getWindow();

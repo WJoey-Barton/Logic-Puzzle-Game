@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PuzzleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="790.0" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PuzzleController">
    <children>
       <Label fx:id="Title_Label" layoutX="232.0" layoutY="11.0" text="Logic Puzzle Game">
          <font>
@@ -53,12 +53,21 @@
          </children>
       </VBox>
       <GridPane fx:id="Puzzle_GridPane" layoutX="114.0" layoutY="138.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #1c1c26;" />
-      <Label fx:id="Hint_Label" layoutX="37.0" layoutY="542.0" prefHeight="44.0" prefWidth="527.0" wrapText="true" />
+      <Label fx:id="Hint_Label" layoutX="37.0" layoutY="548.0" prefHeight="44.0" prefWidth="527.0" wrapText="true" />
       <HBox layoutX="526.0" layoutY="481.0" prefHeight="29.0" prefWidth="247.0">
          <children>
             <Button fx:id="Hint_Button" mnemonicParsing="false" onAction="#HintButton_clicked" prefHeight="30.0" prefWidth="101.0" text="Hint" />
             <Button fx:id="ClearErrors_Button" mnemonicParsing="false" onAction="#ClearErrorsButton_clicked" prefHeight="30.0" prefWidth="132.0" text="Clear Errors" />
             <Button fx:id="StartOver_Button" mnemonicParsing="false" onAction="#StartOverButton_clicked" prefHeight="30.0" prefWidth="122.0" text="Start Over" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="22.0" layoutY="25.0" prefHeight="50.0" prefWidth="104.0">
+         <children>
+            <Label fx:id="Timer_Label" text="00:00">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
    </children>

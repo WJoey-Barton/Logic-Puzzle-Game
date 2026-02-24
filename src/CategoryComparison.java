@@ -1,9 +1,20 @@
+/**Joey Barton
+ * CategoryComparison
+ * Represents a pairing between two categories
+ * Generates a unique grid key used by the Solution class
+ * Translates integer grid coordinates to the String values that
+ * the Solution class expects
+*/
+
 public class CategoryComparison {
 
     private Category rowCategory;
     private Category colCategory;
+
+    //Unique key for a comparison
     private String gridKey;
 
+    //Constructs a CategoryComparison and generates a unique gridKey
     public CategoryComparison(Category rowCategory, Category colCategory) {
         this.rowCategory = rowCategory;
         this.colCategory = colCategory;

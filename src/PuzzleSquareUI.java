@@ -200,7 +200,7 @@ public class PuzzleSquareUI extends StackPane {
         //Highlighting a square
         //Used for Hint and Clear Errors
         if(isHighlighted) {
-            border.setFill(Color.web("#1e1430"));
+            border.setFill(Color.web("#24306e"));
             border.setStroke(Color.web("#a29bfe"));
         } else if(isError) {
             border.setFill(Color.web("#1e0a0a"));

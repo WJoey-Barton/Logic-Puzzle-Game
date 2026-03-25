@@ -1,6 +1,5 @@
 
-🧩 JavaFX Logic Grid Solver
-
+🧩 JavaFX Logic Grid Solver\n
     A standalone Java application that challenges users to solve complex logic puzzles using a $3 \times 4$ grid system. Built with JavaFX, this project simulates the classic "Logic Grid" experience found in puzzle magazines, featuring automated rule enforcement, a hint system with time penalties, and a dynamic state-tracking engine.
 
 🌟 Features
